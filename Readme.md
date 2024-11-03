@@ -1,13 +1,10 @@
 # Language Tools for Windows
-
-Two utilities to help you work with multiple keyboard layouts:
+You know how you write something and you've think you're on English keyboard, whern you are Hebrew Keyboard?
+And you wrote gyberish?
+Two Utilities to help with that:
 
 ## 1. Language Indicator
-A small colored letter near your cursor showing your current keyboard layout:
-- E (Green) - English
-- H (Purple) - Hebrew 
-- R (Blue) - Russian
-- A (Orange) - Arabic
+A small colored letter near your cursor showing your current keyboard layout
 
 ### Usage
 - Run `LanguageIndicator.exe`
