@@ -3,15 +3,7 @@ You know how you write something and you've think you're on English keyboard, wh
 And you wrote gyberish?
 Two Utilities to help with that:
 
-## 1. Language Indicator
-A small colored letter near your cursor showing your current keyboard layout
-
-### Usage
-- Run `LanguageIndicator.exe`
-- A small colored letter will follow your cursor
-- Color and letter change automatically when you switch keyboard layouts
-
-## 2. Text Converter
+## 1. Text Converter
 Converts text between keyboard layouts when typed in the wrong language.
 
 ### Usage
@@ -20,6 +12,14 @@ Converts text between keyboard layouts when typed in the wrong language.
 - Press `Ctrl + Right Click` to show conversion menu
 - OR press `Ctrl + '` to convert directly to next language
 - Text will be replaced with the converted version
+
+## 2. Language Indicator
+A small colored letter near your cursor showing your current keyboard layout
+
+### Usage
+- Run `LanguageIndicator.exe`
+- A small colored letter will follow your cursor
+- Color and letter change automatically when you switch keyboard layouts
 
 ## Auto-Start Setup
 To make tools run automatically when Windows starts:
