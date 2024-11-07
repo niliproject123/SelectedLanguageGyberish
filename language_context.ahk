@@ -4,8 +4,8 @@
 layoutList := GetInstalledLayouts()
 
 TrayTip "Switch using 'ctrl+'' or 'ctrl+right click' ", "Language Swithcing"
-; A_IconTip := "Language Switching Context Menu Script Active. Switch language with Ctrl+' or Ctrl+Right Click"
-; A_TrayMenu.Rename("1&", "Language Switch")  ; Changes default first menu item
+A_IconTip := "Language Converter Active"
+A_TrayMenu.Rename("1&", "Language Converter")  ; Changes default first menu item
 
 ConvertSelectedTextToLayout(fromLayout, toLayout) {
    selectedText := GetSelectedText()
