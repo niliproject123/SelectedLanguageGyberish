@@ -38,6 +38,26 @@ Alternatively, you can manage startup programs through Task Manager:
 2. Go to "Startup" tab
 3. Enable/Disable the tools as needed
 
+## Compilation Instructions
+
+1. Install AutoHotkey v2.0 from [autohotkey.com](https://www.autohotkey.com/)
+
+2. Open AutoHotkey Dash from Start Menu (search for "AutoHotkey")
+
+3. Click on "Compile" from the left menu
+
+4. In the Ahk2Exe window:
+   - For "Source (script file)" - browse to your .ahk file
+   - For "Destination (.exe file)" - choose where to save the exe
+   - For "Base File (.bin, .exe)" - select "v2.0.18 U32 AutoHotkey32.exe" from dropdown
+   - Click "Convert"
+
+5. Repeat for both scripts:
+   - `LanguageIndicator.ahk` → `LanguageIndicator.exe`
+   - `TextConverter.ahk` → `TextConverter.exe`
+
+Note: Make sure to select the v2 base file in the dropdown as shown in the image, otherwise compilation will fail.
+
 ## Requirements
 - Windows 10/11
 - Supported keyboard layouts installed (English, Hebrew, Russian, Arabic)
