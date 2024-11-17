@@ -1,6 +1,6 @@
 #Requires AutoHotkey v2.0
 TrayTip "Running", "Language Mouse Indicator"
-A_IconTip := "Language Mouse Indicator Script Active"
+A_IconTip := "Language Mouse Indicator"
 A_TrayMenu.Rename("1&", "Language Mouse Indicator")  ; Changes default first menu item
 
 ; Global declarations first
