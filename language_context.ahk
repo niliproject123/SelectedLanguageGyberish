@@ -1,5 +1,15 @@
 #SingleInstance Force
 
+; Add at start of script
+global logFile := A_ScriptDir "\debug.log"
+
+
+Log(text) {
+    global logFile
+    timestamp := FormatTime(A_Now, "yyyy-MM-dd HH:mm:ss")
+    FileAppend(timestamp " - " text "`n", logFile)
+}
+
 ; Get layouts once at startup
 layoutList := GetInstalledLayouts()
 
@@ -7,12 +17,52 @@ TrayTip "Switch using 'ctrl+'' or 'ctrl+right click' ", "Language Swithcing"
 A_IconTip := "Language Converter"
 A_TrayMenu.Rename("1&", "Language Converter")  ; Changes default first menu item
 
-ConvertSelectedTextToLayout(fromLayout, toLayout) {
-   selectedText := GetSelectedText()
-   if (selectedText = "")
-       return
-   convertedText := ConvertText(selectedText, fromLayout, toLayout)
-   ReplaceSelectedText(convertedText)
+charRanges := Map(
+    "0409", [0x0020, 0x007F],  ; English (ASCII)
+    "040d", [0x0590, 0x05FF],  ; Hebrew Unicode range
+    "0419", [0x0400, 0x04FF],  ; Russian (Cyrillic)
+    "0401", [0x0600, 0x06FF],  ; Arabic Unicode range
+    ; Add more ranges as needed
+)
+
+ConvertSelectedTextToLayout(toLayout) {
+    selectedText := GetSelectedText()
+    if (selectedText = "")
+        return
+    fromLayout := DetectTextLanguage(selectedText)
+    convertedText := ConvertText(selectedText, fromLayout, toLayout)
+    ReplaceSelectedText(convertedText)
+}
+
+DetectTextLanguage(text) {
+    charCounts := Map()
+    
+    ; Initialize counts for each language
+    for layoutId in charRanges {
+        charCounts[layoutId] := 0
+    }
+    
+    ; Count characters for each language range
+    for char in StrSplit(text) {
+        charCode := Ord(char)
+        for layoutId, range in charRanges {
+            if (charCode >= range[1] && charCode <= range[2]) {
+                charCounts[layoutId]++
+            }
+        }
+    }
+    
+    ; Find language with highest character count
+    maxCount := 0
+    detectedLayout := "0409"  ; Default to English
+    for layoutId, count in charCounts {
+        if (count > maxCount) {
+            maxCount := count
+            detectedLayout := layoutId
+        }
+    }
+    
+    return detectedLayout
 }
 
 GetNextLayout(currentID) {
@@ -28,28 +78,34 @@ GetNextLayout(currentID) {
    return layoutList[nextIndex]
 }
 
-MenuHandler(currentID, nextLayout) {
-   ConvertSelectedTextToLayout(currentID, nextLayout)
+MenuHandler(nextLayout) {
+    ConvertSelectedTextToLayout(nextLayout)
 }
 
 ~^RButton up::
 {
-    currentID := GetCurrentLayout()
-    nextLayout := GetNextLayout(currentID)
+    selectedText := GetSelectedText()
+    if (selectedText = "")
+        return
+    currentLayout := DetectTextLanguage(selectedText)
+    nextLayout := GetNextLayout(currentLayout)
     nextLanguage := languageNames.Has(nextLayout) ? languageNames[nextLayout] : "unknown language"
 
     ; Create context menu
     myMenu := Menu()
-    myMenu.Add("Switch to " nextLanguage, (*) => MenuHandler(currentID, nextLayout))
+    myMenu.Add("Switch to " nextLanguage, (*) => MenuHandler(nextLayout))
     MouseGetPos(&mouseX, &mouseY)
     myMenu.Show(mouseX, mouseY)
 }
 
 ~^'::
 {
-   currentID := GetCurrentLayout()
-   nextLayout := GetNextLayout(currentID)
-   ConvertSelectedTextToLayout(currentID, nextLayout)
+    selectedText := GetSelectedText()
+    if (selectedText = "") 
+        return
+    currentLayout := DetectTextLanguage(selectedText)
+    nextLayout := GetNextLayout(currentLayout)
+    ConvertSelectedTextToLayout(nextLayout)
 }
 
 GetCurrentLayout() {
